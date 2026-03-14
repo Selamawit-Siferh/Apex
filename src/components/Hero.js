@@ -3,14 +3,42 @@ import { mockAPI } from "../data/mockData";
 
 const Hero = () => {
   const [bannerData, setBannerData] = useState(null);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   // Simulate API call
   useEffect(() => {
     // Simulate API delay
     setTimeout(() => {
-      setBannerData(mockAPI.banner);
+      setBannerData(mockAPI.bannerSlides);
     }, 500);
   }, []);
+
+  // Auto-rotate carousel
+  useEffect(() => {
+    if (bannerData && bannerData.length > 1) {
+      const interval = setInterval(() => {
+        setCurrentSlide((prev) => (prev + 1) % bannerData.length);
+      }, 5000); // 5 seconds per slide
+
+      return () => clearInterval(interval);
+    }
+  }, [bannerData]);
+
+  const goToSlide = (index) => {
+    setCurrentSlide(index);
+  };
+
+  const nextSlide = () => {
+    if (bannerData) {
+      setCurrentSlide((prev) => (prev + 1) % bannerData.length);
+    }
+  };
+
+  const prevSlide = () => {
+    if (bannerData) {
+      setCurrentSlide((prev) => (prev - 1 + bannerData.length) % bannerData.length);
+    }
+  };
 
   if (!bannerData) {
     return (
@@ -31,33 +59,84 @@ const Hero = () => {
     >
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Content */}
+          {/* Left Content - Carousel */}
           <div className="space-y-8">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
-              {bannerData.headline.split("WITH")[0]}WITH
-              <br />
-              <span className="text-apex-blue">
-                {bannerData.headline.split("WITH")[1]}
-              </span>
-            </h1>
+            <div className="relative">
+              {/* Slides */}
+              <div className="overflow-hidden">
+                {bannerData.map((slide, index) => (
+                  <div
+                    key={index}
+                    className={`transition-opacity duration-500 ${
+                      index === currentSlide ? "opacity-100" : "opacity-0 absolute inset-0"
+                    }`}
+                  >
+                    <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white leading-tight">
+                      {slide.headline.split("WITH")[0]}WITH
+                      <br />
+                      <span className="text-apex-blue">
+                        {slide.headline.split("WITH")[1]}
+                      </span>
+                    </h1>
 
-            <p className="text-lg text-gray-300 leading-relaxed max-w-lg">
-              {bannerData.subheadline}
-            </p>
+                    <p className="text-lg text-gray-300 leading-relaxed max-w-lg mt-4">
+                      {slide.subheadline}
+                    </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
-              {bannerData.buttons.map((button, index) => (
+                    <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                      {slide.buttons.map((button, btnIndex) => (
+                        <button
+                          key={btnIndex}
+                          className={`${
+                            button.primary
+                              ? "bg-apex-blue hover:bg-blue-400 text-white"
+                              : "bg-transparent border-2 border-apex-blue text-apex-blue hover:bg-apex-blue hover:text-white"
+                          } px-8 py-4 rounded-md font-semibold transition-all transform hover:scale-105 text-center`}
+                        >
+                          {button.text}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Carousel Navigation */}
+              <div className="flex items-center justify-center space-x-4 mt-8">
                 <button
-                  key={index}
-                  className={`${
-                    button.primary
-                      ? "bg-apex-blue hover:bg-blue-400 text-white"
-                      : "bg-transparent border-2 border-apex-blue text-apex-blue hover:bg-apex-blue hover:text-white"
-                  } px-8 py-4 rounded-md font-semibold transition-all transform hover:scale-105 text-center`}
+                  onClick={prevSlide}
+                  className="text-apex-blue hover:text-white transition-colors"
+                  aria-label="Previous slide"
                 >
-                  {button.text}
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                  </svg>
                 </button>
-              ))}
+
+                {/* Dots Indicator */}
+                <div className="flex space-x-2">
+                  {bannerData.map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => goToSlide(index)}
+                      className={`w-3 h-3 rounded-full transition-colors ${
+                        index === currentSlide ? "bg-apex-blue" : "bg-gray-500"
+                      }`}
+                      aria-label={`Go to slide ${index + 1}`}
+                    />
+                  ))}
+                </div>
+
+                <button
+                  onClick={nextSlide}
+                  className="text-apex-blue hover:text-white transition-colors"
+                  aria-label="Next slide"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
 

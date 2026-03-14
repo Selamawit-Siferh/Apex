@@ -5,7 +5,8 @@ const ContactForm = () => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
-    projectType: ''
+    projectType: '',
+    message: ''
   });
 
   const handleChange = (e) => {
@@ -30,9 +31,14 @@ const ContactForm = () => {
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8" id="contact">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-3xl sm:text-4xl font-black text-white text-center mb-16">
-          GET STARTED
-        </h2>
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-black text-white mb-4">
+            GET <span className="text-apex-blue">STARTED</span>
+          </h2>
+          <p className="text-lg text-gray-300 max-w-3xl mx-auto">
+            STOP LOSING LEADS TO OUTDATED TECH. LET'S TALK
+          </p>
+        </div>
         
         <div className="max-w-2xl mx-auto">
           <div className="bg-gray-900 border border-gray-800 rounded-lg p-8">
@@ -59,6 +65,17 @@ const ContactForm = () => {
                         </option>
                       ))}
                     </select>
+                  ) : field.type === 'textarea' ? (
+                    <textarea
+                      id={field.name}
+                      name={field.name}
+                      value={formData[field.name]}
+                      onChange={handleChange}
+                      rows={4}
+                      className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-md text-white placeholder-gray-400 focus:outline-none focus:border-apex-blue transition-colors resize-none"
+                      placeholder="Tell us about your project..."
+                      required={field.required}
+                    />
                   ) : (
                     <input
                       type={field.type}
