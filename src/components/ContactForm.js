@@ -23,11 +23,6 @@ const ContactForm = () => {
     alert('Thank you for your interest! We will contact you soon.');
   };
 
-  const handleCalendlyClick = () => {
-    // Open Calendly link in new tab
-    window.open(mockAPI.contactForm.calendlyUrl, '_blank');
-  };
-
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8" id="contact">
       <div className="max-w-7xl mx-auto">
@@ -97,14 +92,6 @@ const ContactForm = () => {
                   className="w-full bg-apex-blue hover:bg-blue-400 text-white px-6 py-3 rounded-md font-semibold transition-colors"
                 >
                   Send Message
-                </button>
-                
-                <button
-                  type="button"
-                  onClick={handleCalendlyClick}
-                  className="w-full bg-transparent border-2 border-apex-blue text-apex-blue hover:bg-apex-blue hover:text-white px-6 py-3 rounded-md font-semibold transition-colors"
-                >
-                  {mockAPI.contactForm.buttonText}
                 </button>
               </div>
             </form>

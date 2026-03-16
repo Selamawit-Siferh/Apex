@@ -230,8 +230,6 @@ export const mockAPI = {
       { name: "email", label: "Email", type: "email", required: true },
       { name: "projectType", label: "Project Type", type: "select", required: true, options: ["Website Development", "Mobile App Development", "E-commerce Solution", "SEO Services", "AI Integration", "Other"] },
       { name: "message", label: "Project Details", type: "textarea", required: false }
-    ],
-    calendlyUrl: "https://calendly.com/your-calendly-link",
-    buttonText: "Book a 15-minute Discovery Call"
+    ]
   }
 };

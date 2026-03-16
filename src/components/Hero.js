@@ -40,6 +40,20 @@ const Hero = () => {
     }
   };
 
+  const handleButtonClick = (buttonText) => {
+    if (buttonText === "View Our Work") {
+      const target = document.querySelector('#portfolio');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else if (buttonText === "Launch Your Project") {
+      const target = document.querySelector('#contact');
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   if (!bannerData) {
     return (
       <section className="relative py-20 px-4 sm:px-6 lg:px-8 overflow-hidden">
@@ -87,6 +101,7 @@ const Hero = () => {
                       {slide.buttons.map((button, btnIndex) => (
                         <button
                           key={btnIndex}
+                          onClick={() => handleButtonClick(button.text)}
                           className={`${
                             button.primary
                               ? "bg-apex-blue hover:bg-blue-400 text-white"
