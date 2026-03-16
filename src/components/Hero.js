@@ -5,12 +5,9 @@ const Hero = () => {
   const [bannerData, setBannerData] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  // Simulate API call
+  // Load banner data immediately
   useEffect(() => {
-    // Simulate API delay
-    setTimeout(() => {
-      setBannerData(mockAPI.bannerSlides);
-    }, 500);
+    setBannerData(mockAPI.bannerSlides);
   }, []);
 
   // Auto-rotate carousel
@@ -106,7 +103,7 @@ const Hero = () => {
                             button.primary
                               ? "bg-apex-blue hover:bg-blue-400 text-white"
                               : "bg-transparent border-2 border-apex-blue text-apex-blue hover:bg-apex-blue hover:text-white"
-                          } px-8 py-4 rounded-md font-semibold transition-all transform hover:scale-105 text-center`}
+                          } px-8 py-4 rounded-md font-semibold transition-all transform hover:scale-105 text-center cursor-pointer active:scale-95`}
                         >
                           {button.text}
                         </button>

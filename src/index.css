@@ -26,3 +26,15 @@ body {
 .brain-graphic {
   background: radial-gradient(circle at 50% 50%, rgba(0, 212, 255, 0.1) 0%, transparent 70%);
 }
+
+/* Ensure buttons are always interactive */
+button {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+/* Remove any potential overlays blocking clicks */
+section {
+  position: relative;
+}
